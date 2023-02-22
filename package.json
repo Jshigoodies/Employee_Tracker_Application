@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Jshigoodies/Employee_Tracker_Application#readme",
   "dependencies": {
-    "inquirer": "^8.2.4"
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.2.5"
   }
 }
