@@ -68,7 +68,36 @@ function view() {
     
 }
 
+function add(name, salary, id) {
+    try {
+        const db = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '123' //i don't care if someone see this.
+        });
+    
+        db.query('USE tracker_application_db');
+    
+        const add_statment = `INSERT INTO roles (title, salary, department_id) VALUES ('${name}', '${salary}', '${id}');`;
+    
+        db.query(add_statment, (err, result) => {
+            if(err) {
+                console.log(err);
+            }
+        });
+    
+        db.end();
+    
+        console.log(`added ${name} to roles`);
+    }
+    catch(err) {
+        console.log(err);
+    }
+   
+}
+
 module.exports = {
     view: view,
+    add: add,
     mysql: mysql
 };

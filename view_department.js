@@ -1,6 +1,5 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-
 function view() {
     //console.log("show table of department in database");
 
@@ -67,8 +66,8 @@ function view() {
     }
 }
 
-function add() {
-    console.log("in add function");
+function add(name) {
+    //console.log("in add function");
 
     const db = mysql.createConnection({
         host: 'localhost',
@@ -76,12 +75,15 @@ function add() {
         password: '123' //i don't care if someone see this.
     });
 
-    
+    db.query('USE tracker_application_db');
+    const add_statment = `INSERT INTO departments (name) VALUES ('${name}');`;
 
-    const addingStatement = `
-    INSERT INTO departments (id, names) VALUES ()
-    `;
+    db.query(add_statment);
+
+    db.end();
+    console.log(`added ${name} to departments`)
 }
+
 
 module.exports = {
     view: view,

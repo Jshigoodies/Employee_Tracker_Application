@@ -1,3 +1,5 @@
+const { default: inquirer } = require('inquirer');
+const { up } = require('inquirer/lib/utils/readline');
 const mysql = require('mysql2');
 
 function view() {
@@ -67,7 +69,66 @@ function view() {
     }
 }
 
+function add(first_n, last_n, role_id) {
+    //console.log("inside add function");
+
+    try {
+        const db = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '123' //i don't care if someone see this.
+        });
+        db.query('USE tracker_application_db');
+
+        const add_statment = `INSERT INTO employees (first_name, last_name, role_id)
+        VALUES ('${first_n}', '${last_n}', ${role_id});`;
+
+        db.query(add_statment, (err, results) => {
+            if(err) {
+                console.log(err);
+            }
+        });
+
+        db.end();
+
+        console.log(`added ${first_n} to employees`);
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+
+function update(first_n, role_id) {
+
+    try {
+        const db = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '123' //i don't care if someone see this.
+        });
+
+        db.query('USE tracker_application_db');
+
+        const update_statement = `
+        UPDATE employees
+        SET role_id = ${role_id}
+        WHERE first_name = '${first_n}';`;
+
+        db.query(update_statement, (err, result) => {
+            if(err) {
+                console.log(err);
+            }
+        });
+
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+
 module.exports = {
+    update: update,
     view: view,
+    add: add,
     mysql: mysql
 };
